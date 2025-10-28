@@ -26,6 +26,16 @@ class MutationController extends Controller
     public function detectMutation(Request $request): JsonResponse
     {
         try {
+            // Debug temporal - solo validar y retornar
+            return response()->json([
+                'debug' => true,
+                'message' => 'Endpoint reached successfully',
+                'received_data' => $request->all(),
+                'method' => $request->method()
+            ], 200);
+
+            // Código original comentado temporalmente
+            /*
             // Validar que el request tenga el campo 'dna'
             $request->validate([
                 'dna' => 'required|array',
@@ -48,6 +58,7 @@ class MutationController extends Controller
                     'is_mutant' => false
                 ], 403);
             }
+            */
 
         } catch (InvalidArgumentException $e) {
             return response()->json([
@@ -57,7 +68,8 @@ class MutationController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Internal server error',
-                'message' => 'An unexpected error occurred'
+                'message' => 'An unexpected error occurred',
+                'exception' => $e->getMessage()
             ], 500);
         }
     }
